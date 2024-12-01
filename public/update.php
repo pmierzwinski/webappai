@@ -2,8 +2,11 @@
 
 require_once "../app/globalLoader.php";
 
-$app = new App(new GptMock());
+$service = new GptService(new GptConnection(new GptApiMock()));
+$app = new App($service);
+
 $app->updateProject();
 
 header("Location: index.php");
+
 die();
