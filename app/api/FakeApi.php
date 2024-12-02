@@ -1,6 +1,6 @@
 <?php
 
-class GptApiMock implements Api
+class FakeApi implements IApi
 {
 
     function call() : string

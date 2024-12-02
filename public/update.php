@@ -2,8 +2,8 @@
 
 require_once "../app/globalLoader.php";
 
-$service = new GptService(new GptConnection(new GptApiMock()));
-$app = new App($service);
+$connection = new GptConnection(new FakeApi());
+$app = new App($connection);
 
 $app->updateProject();
 

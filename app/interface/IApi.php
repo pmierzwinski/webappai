@@ -1,6 +1,6 @@
 <?php
 
-interface Api
+interface IApi
 {
     function call() : string;
     function setHeaders(array $headers) : void;

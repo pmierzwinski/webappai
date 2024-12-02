@@ -2,11 +2,11 @@
 
 class GptConnection implements AIConnection
 {
-    private Api $api;
+    private IApi $api;
 
     const GPT_VERSION = "gpt-3.5-turbo";
 
-    public function __construct(Api $api)
+    public function __construct(IApi $api)
     {
         $this->api = $api;
         $this->api->setHeaders([
@@ -34,5 +34,19 @@ class GptConnection implements AIConnection
             ],
             "max_tokens" => 100
         ];
+    }
+
+
+    public function getBetterCodeThan(string $oldCode) : string
+    {
+        $prompt = $this->promptFactory->newCodeForOldCode($oldCode);
+        $response = $this->connection->ask($prompt);
+        $responseData = json_decode($response, true);
+
+        if (isset($responseData['choices'][0]['message']['content'])) {
+            return $responseData['choices'][0]['message']['content'];
+        } else {
+            throw new Exception("Błąd: Brak odpowiedzi od API.");
+        }
     }
 }

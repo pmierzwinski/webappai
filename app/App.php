@@ -2,11 +2,11 @@
 
 class App
 {
-    private GptService $aiService;
+    private AIService $aiService;
 
-    public function __construct(AIService $service)
+    public function __construct(AIConnection $connection)
     {
-        $this->aiService = $service;
+        $this->aiService = new AIService($connection);
     }
 
     public function updateProject()

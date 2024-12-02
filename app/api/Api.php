@@ -1,12 +1,17 @@
 <?php
 
-class GptApi implements Api
+class Api implements IApi
 {
-    const GPT_URL = "https://api.openai.com/v1/chat/completions";
-    const GPT_VERSION = "gpt-3.5-turbo";
+    private string $url;
 
     private array $headers;
+
     private array $data = [];
+
+    public function __construct(string $url)
+    {
+        $this->url = $url;
+    }
 
     public function setHeaders(array $headers) : void
     {
@@ -20,7 +25,6 @@ class GptApi implements Api
 
     public function call() : string
     {
-        return Curl::call(self::GPT_URL, $this->headers, $this->data);
+        return Curl::call($this->url, $this->headers, $this->data);
     }
-
 }

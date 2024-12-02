@@ -1,6 +1,6 @@
 <?php
 
-interface AIService
+interface IAIService
 {
     function getBetterCodeThan(string $oldCode) : string;
 }
