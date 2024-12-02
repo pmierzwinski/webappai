@@ -11,7 +11,9 @@ class AIService
         $this->promptFactory = new PromptsFactory();
     }
 
-
-
-
+    public function getBetterCodeThan(string $oldCode) : string
+    {
+        $prompt = $this->promptFactory->newCodeForOldCode($oldCode);
+        return $this->connection->ask($prompt);
+    }
 }

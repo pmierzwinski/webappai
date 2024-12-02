@@ -15,11 +15,14 @@ class GptConnection implements AIConnection
         ]);
     }
 
-    function ask(string $prompt) : string
+    public function ask(string $prompt) : string
     {
         $this->api->setData($this->createDataForMessage($prompt));
 
-        return $this->api->call();
+        $jsonResponse = $this->api->call();
+        $responseData = json_decode($jsonResponse, true);
+
+        return $this->ensureCorrectResponse($responseData);
     }
 
     private function createDataForMessage($message) : array
@@ -36,15 +39,10 @@ class GptConnection implements AIConnection
         ];
     }
 
-
-    public function getBetterCodeThan(string $oldCode) : string
+    private function ensureCorrectResponse($response) : string
     {
-        $prompt = $this->promptFactory->newCodeForOldCode($oldCode);
-        $response = $this->connection->ask($prompt);
-        $responseData = json_decode($response, true);
-
-        if (isset($responseData['choices'][0]['message']['content'])) {
-            return $responseData['choices'][0]['message']['content'];
+        if (isset($response['choices'][0]['message']['content'])) {
+            return $response['choices'][0]['message']['content'];
         } else {
             throw new Exception("Błąd: Brak odpowiedzi od API.");
         }
