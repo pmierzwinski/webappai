@@ -6,11 +6,11 @@ class GptConnection implements AIConnection
 
     const GPT_VERSION = "gpt-3.5-turbo";
 
-    public function __construct(IApi $api)
+    public function __construct()
     {
-        $this->api = $api;
+        $this->api = new Api(GPT_URL);
         $this->api->setHeaders([
-            "Authorization: Bearer ".SYSTEM_API_KEY,
+            "Authorization: Bearer ".GPT_API_KEY,
             "Content-Type: application/json"
         ]);
     }

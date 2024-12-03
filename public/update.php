@@ -2,7 +2,7 @@
 
 require_once "../app/globalLoader.php";
 
-$connection = new GptConnection(new FakeApi());
+$connection = new GptConnection();
 $app = new App($connection);
 
 $app->updateProject();
