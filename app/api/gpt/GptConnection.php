@@ -31,7 +31,7 @@ class GptConnection implements AIConnection
             "model" => self::GPT_VERSION,
             "messages" => [
                 [
-                    "role" => "system",
+                    "role" => "user",
                     "content" => $message
                 ]
             ],
