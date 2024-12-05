@@ -41,7 +41,10 @@ class GroqConnection implements AIConnection
 
     private function ensureCorrectResponse($response) : string
     {
-        //todo for groq
+        if (isset($response['error']['message'])) {
+            throw new Exception($response['error']['message']);
+        }
+        return $response;
 //        if (isset($response['choices'][0]['message']['content'])) {
 //            return $response['choices'][0]['message']['content'];
 //        } else {
