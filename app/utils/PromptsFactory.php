@@ -2,10 +2,8 @@
 
 class PromptsFactory
 {
-
     public function newCodeForOldCode(string $oldCode) : string
     {
-        return SYSTEM_PROMPT."hello";
+        return NEW_CODE_FOR_OLD_CODE_PROMPT.$oldCode;
     }
-
 }

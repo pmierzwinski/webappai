@@ -20,6 +20,8 @@ class GroqConnection implements AIConnection
         $this->api->setData($this->createDataForMessage($prompt));
 
         $jsonResponse = $this->api->call();
+
+        FileService::log($jsonResponse);
         $responseData = json_decode($jsonResponse, true);
 
         return $this->ensureCorrectResponse($responseData);
@@ -35,20 +37,17 @@ class GroqConnection implements AIConnection
                     "content" => $message
                 ]
             ],
-            "max_tokens" => 100
+            "max_tokens" => 1000
         ];
     }
 
     private function ensureCorrectResponse($response) : string
     {
-        if (isset($response['error']['message'])) {
+        if (isset($response['error'])) {
             throw new Exception($response['error']['message']);
         }
-        return $response;
-//        if (isset($response['choices'][0]['message']['content'])) {
-//            return $response['choices'][0]['message']['content'];
-//        } else {
-//            throw new Exception("Błąd: Brak odpowiedzi od API.");
-//        }
+        $message = $response["choices"][0]["message"]["content"];
+
+        return str_replace("```","",$message);
     }
 }

@@ -14,6 +14,8 @@ class AIService
     public function getBetterCodeThan(string $oldCode) : string
     {
         $prompt = $this->promptFactory->newCodeForOldCode($oldCode);
-        return $this->connection->ask($prompt);
+        $response = $this->connection->ask($prompt);
+
+        return Utils::ensurePhpCode($response);
     }
 }

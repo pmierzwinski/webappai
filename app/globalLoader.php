@@ -8,6 +8,9 @@ foreach (glob("../app/utils/*.php") as $filename) {
     require_once($filename);
 }
 
+foreach (glob("../app/api/*.php") as $filename) {
+    require_once($filename);
+}
 foreach (glob("../app/api/gpt/*.php") as $filename) {
     require_once($filename);
 }
