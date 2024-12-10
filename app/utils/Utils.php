@@ -18,4 +18,12 @@ class Utils
             return $code;
         }
     }
+
+    public static function ensureCssCode($code) : string {
+        return htmlspecialchars_decode($code);
+    }
+
+    public static function ensureJsCode($code) : string {
+        return htmlspecialchars_decode($code);
+    }
 }

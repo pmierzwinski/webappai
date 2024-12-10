@@ -4,6 +4,8 @@ class FileService
 {
     const PUBLIC_FOLDER_PATH = __DIR__.'/../../public';
     const INDEX_PATH = self::PUBLIC_FOLDER_PATH.'/index.php';
+    const CSS_PATH = self::PUBLIC_FOLDER_PATH.'/css/style.css';
+    const JS_PATH = self::PUBLIC_FOLDER_PATH.'/js/script.js';
     const LOG_PATH = self::PUBLIC_FOLDER_PATH.'/log.txt';
 
     public static function getLogContent() : string
@@ -18,6 +20,16 @@ class FileService
     public static function log(string $content) : void
     {
         self::setFileContent(self::LOG_PATH, FileService::getLogContent()."\n\n-----------\n\n".$content);
+    }
+
+    public static function setCssContent(string $content) : void
+    {
+        self::setFileContent(self::CSS_PATH, $content);
+    }
+
+    public static function setJsContent(string $content) : void
+    {
+        self::setFileContent(self::JS_PATH, $content);
     }
 
     public static function setIndexContent(string $content) : void

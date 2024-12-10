@@ -18,4 +18,28 @@ class AIService
 
         return Utils::ensurePhpCode($response);
     }
+
+    public function getPhpCodeWithOneHtmlFile(string $oldCode, string $htmlFileName) : string
+    {
+        $prompt = $this->promptFactory->getPhpContainingOnaHtmlFile($oldCode);
+        $response = $this->connection->ask($prompt);
+
+        return Utils::ensurePhpCode($response);
+    }
+
+    public function getCssCodeForPhpFile(string $oldCode) : string
+    {
+        $prompt = $this->promptFactory->getCssForPhpCode($oldCode);
+        $response = $this->connection->ask($prompt);
+
+        return Utils::ensureCssCode($response);
+    }
+
+    public function getJsCodeForPhpFile(string $oldCode) : string
+    {
+        $prompt = $this->promptFactory->getJsForPhpCode($oldCode);
+        $response = $this->connection->ask($prompt);
+
+        return Utils::ensureJsCode($response);
+    }
 }
