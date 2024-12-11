@@ -2,23 +2,29 @@
 
 class PromptsFactory
 {
-    public function newCodeForOldCode(string $oldCode) : string
-    {
-        return NEW_CODE_FOR_OLD_CODE_PROMPT.$oldCode;
+    private PromptBuilder $builder;
+
+    public function __construct() {
+        $this->builder = new PromptBuilder();
     }
 
-    public function getPhpContainingOnaHtmlFile(string $oldCode) : string
+    public function newCodeForOldCode(string $oldCode) : string
     {
-        return PHP_WITH_ONE_HTML_FILE.$oldCode;
+        return $this->builder->newCodeForOldCode($oldCode)->build();
+    }
+
+    public function betterCodeThan(string $oldCode) : string
+    {
+        return $this->builder->betterCodeThan(PHP_WITH_ONE_HTML_FILE.$oldCode)->build();
     }
 
     public function getCssForPhpCode(string $oldCode) : string
     {
-        return SCC_FOR_PHP.$oldCode;
+        return $this->builder->getCssForPhpCode(SCC_FOR_PHP.$oldCode)->build();
     }
 
     public function getJsForPhpCode(string $oldCode) : string
     {
-        return JS_FOR_PHP.$oldCode;
+        return $this->builder->getJsForPhpCode(SCC_FOR_PHP.$oldCode)->build();
     }
 }

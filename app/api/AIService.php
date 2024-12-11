@@ -19,9 +19,9 @@ class AIService
         return Utils::ensurePhpCode($response);
     }
 
-    public function getPhpCodeWithOneHtmlFile(string $oldCode, string $htmlFileName) : string
+    public function getIndexCode(string $oldCode, string $importCode) : string
     {
-        $prompt = $this->promptFactory->getPhpContainingOnaHtmlFile($oldCode);
+        $prompt = $this->promptFactory->betterCodeThan($oldCode);
         $response = $this->connection->ask($prompt);
 
         return Utils::ensurePhpCode($response);

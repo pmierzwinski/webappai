@@ -2,6 +2,7 @@
 
 class App
 {
+    //TODO if exception - reset files, and save the old ones. - so having current and old index files
     private AIService $aiService;
 
     public function __construct(AIConnection $connection)
@@ -12,18 +13,14 @@ class App
     public function updateProject()
     {
         $indexCode = $this->updateIndexFile();
-        $this->updateCssFileForIndexCode($indexCode);
-        $this->updateJsFileForIndexCode($indexCode);
+        $this->updateCssFile($indexCode);
+        $this->updateJsFile($indexCode);
     }
 
-    /**
-     * @return void
-     */
     private function updateIndexFile() : string
     {
         $oldIndexCode = FileService::getIndexContent();
-        //todo rozdzielic na klasy PhpCodeService::withHtmlFile()->getCode();
-        $gptCode = $this->aiService->getPhpCodeWithOneHtmlFile($oldIndexCode, "test.html");//todo moze lepiej html do php dac?
+        $gptCode = $this->aiService->getIndexCode($oldIndexCode, "test.html");//todo moze lepiej html do php dac?
         FileService::setIndexContent($gptCode);
 
         return $gptCode;
@@ -32,7 +29,7 @@ class App
     /**
      * @return void
      */
-    private function updateCssFileForIndexCode(string $indexCode) : string
+    private function updateCssFile(string $indexCode) : string
     {
         //todo rozdzielic na klasy PhpCodeService::withHtmlFile()->getCode();
         $gptCode = $this->aiService->getCssCodeForPhpFile($indexCode);//todo moze lepiej html do php dac?
@@ -44,7 +41,7 @@ class App
     /**
      * @return void
      */
-    private function updateJsFileForIndexCode(string $indexCode) : string
+    private function updateJsFile(string $indexCode) : string
     {
         //todo rozdzielic na klasy PhpCodeService::withHtmlFile()->getCode();
         $gptCode = $this->aiService->getJsCodeForPhpFile($indexCode);//todo moze lepiej html do php dac?
