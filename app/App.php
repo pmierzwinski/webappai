@@ -20,7 +20,7 @@ class App
     private function updateIndexFile() : string
     {
         $oldIndexCode = FileService::getIndexContent();
-        $gptCode = $this->aiService->getIndexCode($oldIndexCode, "test.html");//todo moze lepiej html do php dac?
+        $gptCode = $this->aiService->getBetterCode($oldIndexCode);//todo moze lepiej html do php dac?
         FileService::setIndexContent($gptCode);
 
         return $gptCode;
@@ -32,7 +32,7 @@ class App
     private function updateCssFile(string $indexCode) : string
     {
         //todo rozdzielic na klasy PhpCodeService::withHtmlFile()->getCode();
-        $gptCode = $this->aiService->getCssCodeForPhpFile($indexCode);//todo moze lepiej html do php dac?
+        $gptCode = $this->aiService->getBetterCode($indexCode);//todo moze lepiej html do php dac?
         FileService::setCssContent($gptCode);
 
         return $gptCode;
@@ -44,7 +44,7 @@ class App
     private function updateJsFile(string $indexCode) : string
     {
         //todo rozdzielic na klasy PhpCodeService::withHtmlFile()->getCode();
-        $gptCode = $this->aiService->getJsCodeForPhpFile($indexCode);//todo moze lepiej html do php dac?
+        $gptCode = $this->aiService->getBetterCode($indexCode);//todo moze lepiej html do php dac?
         FileService::setJsContent($gptCode);
 
         return $gptCode;
