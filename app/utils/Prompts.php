@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Utils\File;
+
 class Prompts {
     const NEW_CODE_FOR_OLD_CODE_PROMPT = <<<EOT
   Rewrite the following php code by new design and interactivity. The project consists

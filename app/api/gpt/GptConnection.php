@@ -1,16 +1,24 @@
 <?php
 
+namespace App\Api\Gpt;
+
+use App\Api\Api;
+use App\Interface\AIConnection;
+use App\Api\Exception\ResponseFormatException;
+
 class GptConnection implements AIConnection
 {
-    private IApi $api;
+    private Api $api;
 
+    const GPT_URL = "https://api.openai.com/v1/chat/completions";
+    const GPT_API_KEY = "xxx";
     const GPT_VERSION = "gpt-3.5-turbo";
 
     public function __construct()
     {
-        $this->api = new Api(GPT_URL);
+        $this->api = new Api(self::GPT_URL);
         $this->api->setHeaders([
-            "Authorization: Bearer ".GPT_API_KEY,
+            "Authorization: Bearer ".self::GPT_API_KEY,
             "Content-Type: application/json"
         ]);
     }
@@ -44,7 +52,7 @@ class GptConnection implements AIConnection
         if (isset($response['choices'][0]['message']['content'])) {
             return $response['choices'][0]['message']['content'];
         } else {
-            throw new Exception("Błąd: Brak odpowiedzi od API.");
+            throw new ResponseFormatException("Błąd: Brak odpowiedzi od API.");
         }
     }
 }

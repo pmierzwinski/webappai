@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Api;
+
+use App\Utils\File\PromptsFactory;
+use App\Interface\AIConnection;
+
 class AIService
 {
     private AIConnection $connection;

@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Api;
+
+use App\Interface\IApi;
+use App\Utils\File\Curl\Curl;
+
 class Api implements IApi
 {
     private string $url;

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Utils\File;
+
 class Utils
 {
     public static function path($path) : string {

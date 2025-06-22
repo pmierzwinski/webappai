@@ -1,16 +1,25 @@
 <?php
 
+namespace App\Api\Groq;
+
+use App\Api\Api;
+use App\Utils\File\FileService;
+use App\Interface\AIConnection;
+use App\Api\Exception\ResponseFormatException;
+
 class GroqConnection implements AIConnection
 {
-    private IApi $api;
+    private Api $api;
 
     const MODEL = "llama3-8b-8192";
+    const GROQ_URL = "https://api.groq.com/v1/chat/completions";
+    const GROQ_API_KEY = "your_groq_api_key_here";
 
     public function __construct()
     {
-        $this->api = new Api(GROQ_URL);
+        $this->api = new Api(self::GROQ_URL);
         $this->api->setHeaders([
-            "Authorization: Bearer ".GROQ_API_KEY,  // Dodaj nagłówek autoryzacji, jeśli jest wymagany
+            "Authorization: Bearer ".self::GROQ_API_KEY,
             "Content-Type: application/json"
         ]);
     }
@@ -44,7 +53,7 @@ class GroqConnection implements AIConnection
     private function ensureCorrectResponse($response) : string
     {
         if (isset($response['error'])) {
-            throw new Exception($response['error']['message']);
+            throw new ResponseFormatException($response['error']['message']);
         }
         $message = $response["choices"][0]["message"]["content"];
 

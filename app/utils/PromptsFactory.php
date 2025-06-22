@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Utils\File;
+
 class PromptsFactory
 {
     private PromptBuilder $builder;

@@ -1,9 +1,13 @@
 <?php
 
+namespace App\Api\Test;
+
+use App\Interface\IApi;
+use App\Utils\File\FileService;
+
 class FakeApi implements IApi
 {
-
-    function call() : string
+    public function call() : string
     {
         $indexContent = FileService::getIndexContent();
 
@@ -19,13 +23,13 @@ class FakeApi implements IApi
         return json_encode($fakeData);
     }
 
-    function setHeaders(array $headers) : void
+    public function setHeaders(array $headers) : void
     {
-        // TODO: Implement setHeaders() method.
+        //Implement setHeaders() method.
     }
 
-    function setData(array $headers) : void
+    public function setData(array $headers) : void
     {
-        // TODO: Implement setData() method.
+        //Implement setData() method.
     }
 }

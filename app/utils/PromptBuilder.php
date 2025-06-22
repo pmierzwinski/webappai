@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Utils\File;
+
 class PromptBuilder
 {
     private $prompt = "";

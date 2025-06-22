@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Interface;
+
 interface IApi
 {
     function call() : string;

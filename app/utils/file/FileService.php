@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Utils\File;
+
 class FileService
 {
     const PUBLIC_FOLDER_PATH = __DIR__.'/../../public';
@@ -40,7 +42,7 @@ class FileService
     public static function setFileContent(string $filePath, string $newContent) : void
     {
         if (file_put_contents($filePath, $newContent) === false) {
-            throw new Exception('Nie udało się zapisać do pliku');
+            throw new FileContentException('Error writing to file: '.$filePath);
         }
     }
 
@@ -48,7 +50,7 @@ class FileService
     {
         $fileContent = file_get_contents($filePath);
         if ($fileContent === false) {
-            throw new Exception('Nie udało się odczytać pliku');
+            throw new FileContentException('File not found or could not be read: '.$filePath);
         }
         return $fileContent;
     }
