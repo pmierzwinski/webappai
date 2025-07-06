@@ -23,9 +23,9 @@ class Api implements IApi
         $this->headers = $headers;
     }
 
-    public function setData(array $data) : void
+    public function setData(array $headers) : void
     {
-        $this->data = $data;
+        $this->data = $headers;
     }
 
     public function call() : string

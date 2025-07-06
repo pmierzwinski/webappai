@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils\File;
+namespace App\Promptx;
 
 class Prompts {
     const NEW_CODE_FOR_OLD_CODE_PROMPT = <<<EOT

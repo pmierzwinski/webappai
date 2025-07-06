@@ -1,24 +1,8 @@
 <?php
 
-use App\TestClass;
+use App\App;
 
 require_once "../vendor/autoload.php";
+require_once "../bootstrap.php";
 
-$aa = new TestClass();
-echo $aa->sayHello();
-
-// <!DOCTYPE html>
-// <html lang="pl">
-// <head>
-//     <meta charset="UTF-8">
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <title>Webappai</title>
-//     <link rel="stylesheet" href="css/style.css">
-// </head>
-// <body>
-// <h1>Hello!</h1>
-// <p>Sample Data</p>
-
-// <script src="js/script.js"></script>
-// </body>
-// </html>
+$app = new App();
