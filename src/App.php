@@ -32,9 +32,6 @@ class App
         return $gptCode;
     }
 
-    /**
-     * @return void
-     */
     private function updateCssFile(string $indexCode) : string
     {
         //todo rozdzielic na klasy PhpCodeService::withHtmlFile()->getCode();
@@ -44,9 +41,6 @@ class App
         return $gptCode;
     }
 
-    /**
-     * @return void
-     */
     private function updateJsFile(string $indexCode) : string
     {
         //todo rozdzielic na klasy PhpCodeService::withHtmlFile()->getCode();

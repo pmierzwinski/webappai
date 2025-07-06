@@ -2,8 +2,8 @@
 
 namespace App\Api;
 
-use App\Utils\File\PromptsFactory;
 use App\Interface\AIConnection;
+use App\Utils\File\PromptsFactory;
 
 class AIService
 {

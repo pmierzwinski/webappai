@@ -1,9 +1,13 @@
 <?php
 
 use App\App;
+use App\TestClass;
 use App\Api\Groq\GroqConnection;
 
-require_once "../app/autoload.php";
+// require_once "../app/autoload.php";
+require_once "../vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $connection = new GroqConnection();
 $app = new App($connection);
@@ -13,12 +17,7 @@ $app = new App($connection);
 //itp itp
 
 
-$test = new TestClass();
-
-echo $html;
-echo $test->sayHello();
 $app->updateProject();
-
 header("Location: index.php");
 
 die();
