@@ -1,7 +1,7 @@
 <?php
 
+use App\AI\Groq\GroqConnection;
 use App\App;
-use App\Api\Groq\GroqConnection;
 
 require_once "../vendor/autoload.php";
 require_once "../bootstrap.php";

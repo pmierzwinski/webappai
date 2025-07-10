@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\Test;
+namespace App\AI\Test;
 
 use App\Interface\IApi;
 use App\Utils\File\FileService;

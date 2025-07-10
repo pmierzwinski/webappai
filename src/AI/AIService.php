@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Api;
+namespace App\AI;
 
 use App\Interface\AIConnection;
-use App\Utils\File\PromptsFactory;
+use App\Promptx\PromptsFactory;
 
 class AIService
 {

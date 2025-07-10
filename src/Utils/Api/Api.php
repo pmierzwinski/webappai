@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api;
+namespace App\Utils\Api;
 
 use App\Interface\IApi;
 use App\Utils\File\Curl\Curl;

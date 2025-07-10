@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Api\Gpt;
+namespace App\AI\Groq;
 
-use App\Api\Api;
+use App\AI\Exceptions\ResponseFormatException;
 use App\Interface\AIConnection;
-use App\Api\Exception\ResponseFormatException;
+use App\Utils\Api\Api;
+use App\Utils\File\FileService;
 
-class GptConnection implements AIConnection
+class GroqConnection implements AIConnection
 {
     private Api $api;
 
-    const GPT_URL = "https://api.openai.com/v1/chat/completions";
-    const GPT_API_KEY = "xxx";
-    const GPT_VERSION = "gpt-3.5-turbo";
+    const MODEL = "llama3-8b-8192";
+    const GROQ_URL = "https://api.groq.com/v1/chat/completions";
+    const GROQ_API_KEY = "your_groq_api_key_here";
 
     public function __construct()
     {
-        $this->api = new Api(self::GPT_URL);
+        $this->api = new Api(self::GROQ_URL);
         $this->api->setHeaders([
-            "Authorization: Bearer ".self::GPT_API_KEY,
+            "Authorization: Bearer ".self::GROQ_API_KEY,
             "Content-Type: application/json"
         ]);
     }
@@ -28,6 +29,8 @@ class GptConnection implements AIConnection
         $this->api->setData($this->createDataForMessage($prompt));
 
         $jsonResponse = $this->api->call();
+
+        FileService::log($jsonResponse);
         $responseData = json_decode($jsonResponse, true);
 
         return $this->ensureCorrectResponse($responseData);
@@ -36,23 +39,24 @@ class GptConnection implements AIConnection
     private function createDataForMessage($message) : array
     {
         return [
-            "model" => self::GPT_VERSION,
+            "model" => self::MODEL,
             "messages" => [
                 [
                     "role" => "user",
                     "content" => $message
                 ]
             ],
-            "max_tokens" => 100
+            "max_tokens" => 1000
         ];
     }
 
     private function ensureCorrectResponse($response) : string
     {
-        if (isset($response['choices'][0]['message']['content'])) {
-            return $response['choices'][0]['message']['content'];
-        } else {
-            throw new ResponseFormatException("Błąd: Brak odpowiedzi od API.");
+        if (isset($response['error'])) {
+            throw new ResponseFormatException($response['error']['message']);
         }
+        $message = $response["choices"][0]["message"]["content"];
+
+        return str_replace("```","",$message);
     }
 }

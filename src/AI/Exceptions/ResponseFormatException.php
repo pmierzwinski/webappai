@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\Exception;
+namespace App\AI\Exceptions;
 
 use Exception;
 

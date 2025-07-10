@@ -2,8 +2,7 @@
 
 namespace App;
 
-use App\Api\AIService;
-use App\Interface\AIConnection;
+use App\AI\AIService;
 use App\Utils\File\FileService;
 
 class App
@@ -11,10 +10,7 @@ class App
     //TODO if exception - reset files, and save the old ones. - so having current and old index files
     private AIService $aiService;
 
-    public function __construct(AIConnection $connection)
-    {
-        $this->aiService = new AIService($connection);
-    }
+
 
     public function updateProject()
     {
