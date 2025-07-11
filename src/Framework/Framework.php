@@ -12,87 +12,42 @@ class Framework
     const PROD = 'prod';
     const DEV = 'dev';
 
-    public static $environment = self::PROD;
+    public static $environment;
+    public static $projectDir;
 
-    const CACHE_ATTRIBUTES = __DIR__ . '/cache/attributes.php';
 
     private static array $attributeCache = [];
 
-    public static function getClassesWithAttribute(string $attribute): array
+    public static function getClassesByAttribute(string $attribute): array
     {
         return self::$attributeCache[$attribute];
     }
 
-    public function run($env = self::PROD): void
+    public function createAplication(string $env = self::PROD, string $projectDir = __DIR__)
     {
         self::$environment = $env;
-        $this->warmupCache();
+        self::$projectDir = $projectDir;
 
+        $this->boot();
+        $this->run();
+    }
+
+    private function run(): void
+    {
         $this->handelRequest();
     }
 
-    private function warmupCache() : void
-    {
-        if (!file_exists(self::CACHE_ATTRIBUTES) || self::$environment != self::PROD) {
-            $this->importAttributes();
-        } else {
-            self::$attributeCache = include self::CACHE_ATTRIBUTES;
-        }
+    private function boot() {
+        $this->warmup();
     }
 
-    /**
-     * @return void
-     */
-    private function importAttributes() : void
+    private function warmup() : void
     {
-        $this->importAll();
-        $this->mapAttributeClasses();
-        $this->saveToCache();
+        $initiator = new Initiator(self::$projectDir);
+        $initiator->init(self::$environment != self::PROD);
+        self::$attributeCache = $initiator->getAttributeCache();
     }
 
-    /**
-     * @return void
-     */
-    private function importAll() : void
-    {
-        $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS)
-        );
-        foreach ($iterator as $file) {
-            if ($file->isFile() && $file->getExtension() === 'php') {
-                include_once $file->getPathname();
-            }
-        }
-    }
-
-    private function mapAttributeClasses(): void
-    {
-        foreach (get_declared_classes() as $className) {
-            if (str_starts_with($className, 'App\\')) {
-                $reflector = new \ReflectionClass($className);
-                $attributes = $reflector->getAttributes();
-                if (!empty($attributes)) {
-                    foreach ($attributes as $attr) {
-                        $attrName = $attr->getName();
-                        self::$attributeCache[$attrName][] = $className;
-                    }
-                }
-            }
-        }
-    }
-
-    private function saveToCache() : void
-    {
-        $cacheDir = __DIR__ . '/cache';
-        if (!is_dir($cacheDir)) {
-            mkdir($cacheDir, recursive: true);
-        }
-
-        file_put_contents(
-            self::CACHE_ATTRIBUTES,
-            '<?php return ' . var_export(self::$attributeCache, true) . ';'
-        );
-    }
 
     private function handelRequest()
     {

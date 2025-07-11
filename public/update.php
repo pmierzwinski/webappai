@@ -1,14 +1,14 @@
 <?php
 
 use App\AI\Groq\GroqConnection;
-use App\App;
+use App\Update\UpdateService;
 
 require_once "../vendor/autoload.php";
 require_once "../bootstrap.php";
 
 
 $connection = new GroqConnection();
-$app = new App($connection);
+$app = new UpdateService($connection);
 
 //todo 1 update do poprawy działania
 //todo potem update do poprawy wygladu

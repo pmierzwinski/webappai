@@ -6,10 +6,9 @@ use App\Framework\HandlersProvider;
 require_once "../vendor/autoload.php";
 
 $framework = new Framework();
-$framework->run(Framework::DEV);
+$framework->createAplication(Framework::DEV, __DIR__."/../src");//todo src -> protected?
 
-$provider = new HandlersProvider();
-$provider->getHandlerOf($_SERVER['REQUEST_URI'])->handle();
+
 
 
 

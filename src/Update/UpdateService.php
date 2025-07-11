@@ -1,11 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Update;
 
 use App\AI\AIService;
 use App\Utils\File\FileService;
 
-class App
+class UpdateService
 {
     //TODO if exception - reset files, and save the old ones. - so having current and old index files
     private AIService $aiService;

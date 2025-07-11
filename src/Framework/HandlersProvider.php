@@ -2,7 +2,7 @@
 
 namespace App\Framework;
 
-use App\Attribute\Handler;
+use App\Framework\Attribute\Handler;
 use App\Framework\Exception\NoRuteException;
 use App\Route\Interfaces\HandlerInterface;
 use ReflectionClass;
@@ -30,7 +30,7 @@ class HandlersProvider
 
     private function loadHandlers()
     {
-        $handlers = Framework::getClassesWithAttribute(Handler::class);
+        $handlers = Framework::getClassesByAttribute(Handler::class);
         foreach ($handlers as $handlerClass) {
             $reflector = new ReflectionClass($handlerClass);
             $attributes = $reflector->getAttributes(Handler::class);
