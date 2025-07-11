@@ -10,6 +10,9 @@ class UpdateHandler implements HandlerInterface
 {
     public function handle() : void
     {
+//todo change to command
+
+
 
 //        $connection = new GroqConnection();
 //        $app = new App($connection);

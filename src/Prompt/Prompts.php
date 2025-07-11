@@ -34,4 +34,8 @@ EOT;
     const CODE_PREFIX = <<<EOT
 Here is the code:
 EOT;
+
+    const BETTER_PROMPT = <<<EOT
+Analyze given code and make it better by adding new features or fixing existing ones. Respond only with format of: ###Command###filename###content In index.php use small references to another files to make index small and put all the logic in the other file, next when using or requiring the file say in comment above the use what is the API of that file or class to make sure next model will know what it can do without seeing the file
+EOT;
 }

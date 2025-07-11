@@ -3,46 +3,91 @@
 namespace App\Update;
 
 use App\AI\AIService;
-use App\Utils\File\FileService;
+use App\Update\Command\Invoker;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class UpdateService
 {
-    //TODO if exception - reset files, and save the old ones. - so having current and old index files
-    private AIService $aiService;
+    const APP_DIR = "/public/app";
 
+    private string $indexBackup;
 
+    private array $existingFiles;
+
+    public function __construct(private AIService $aiService) {
+
+    }
 
     public function updateProject()
     {
-        $indexCode = $this->updateIndexFile();
-        $this->updateCssFile($indexCode);
-        $this->updateJsFile($indexCode);
+        $this->makeCopy();
+        $commands = $this->askForCommands();
+
+        $invoker = new Invoker($commands);
+        $invoker->run();
+
+        if(!$this->tryCompileIndex()){
+            $this->rollback();
+        }
     }
 
-    private function updateIndexFile() : string
+    private function makeCopy()
     {
-        $oldIndexCode = FileService::getIndexContent();
-        $gptCode = $this->aiService->getBetterCode($oldIndexCode);//todo moze lepiej html do php dac?
-        FileService::setIndexContent($gptCode);
-
-        return $gptCode;
+        $this->indexBackup = $this->getIndexContent();
+        $this->memorizeCurrentFiles();
     }
 
-    private function updateCssFile(string $indexCode) : string
+    private function askForCommands()
     {
-        //todo rozdzielic na klasy PhpCodeService::withHtmlFile()->getCode();
-        $gptCode = $this->aiService->getBetterCode($indexCode);//todo moze lepiej html do php dac?
-        FileService::setCssContent($gptCode);
-
-        return $gptCode;
+        $response = $this->aiService->getBetterCode($this->getIndexContent());
+        return $this->parseToCommands($response);
     }
 
-    private function updateJsFile(string $indexCode) : string
+    private function getIndexContent()
     {
-        //todo rozdzielic na klasy PhpCodeService::withHtmlFile()->getCode();
-        $gptCode = $this->aiService->getBetterCode($indexCode);//todo moze lepiej html do php dac?
-        FileService::setJsContent($gptCode);
+        return file_get_contents(self::APP_DIR."/index.php");
+    }
 
-        return $gptCode;
+    private function parseToCommands(string $response)
+    {
+        return [];//todo
+    }
+
+    private function tryCompileIndex()
+    {
+        $indexPath = self::APP_DIR."/index.php";
+        return shell_exec("php -l $indexPath") == "No syntax errors.";
+    }
+
+    private function rollback()
+    {
+        file_put_contents(self::APP_DIR."/index.php", $this->indexBackup);
+        $this->deleteNewFiles();
+    }
+
+    private function memorizeCurrentFiles()
+    {
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(self::APP_DIR, FilesystemIterator::SKIP_DOTS)
+        );
+        foreach ($iterator as $file) {
+            if ($file->isFile()) {
+                $this->existingFiles[] = $file->getName();
+            }
+        }
+    }
+
+    private function deleteNewFiles()
+    {
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(self::APP_DIR, FilesystemIterator::SKIP_DOTS)
+        );
+        foreach ($iterator as $file) {
+            if ($file->isFile() && !isset($this->existingFiles[$file->getPathame()])) {
+                //todo delete
+            }
+        }
     }
 }
