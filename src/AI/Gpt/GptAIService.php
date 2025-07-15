@@ -6,7 +6,7 @@ use App\AI\AIService;
 use App\AI\Exceptions\ResponseFormatException;
 use App\Utils\Api\Api;
 
-class GptConnection extends AIService
+class GptAIService extends AIService
 {
     private Api $api;
 

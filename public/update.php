@@ -1,13 +1,13 @@
 <?php
 
-use App\AI\Groq\GroqConnection;
+use App\AI\Groq\GroqAIService;
 use App\Update\UpdateService;
 
 require_once "../vendor/autoload.php";
 require_once "../bootstrap.php";
 
 
-$connection = new GroqConnection();
+$connection = new GroqAIService();
 $app = new UpdateService($connection);
 
 //todo 1 update do poprawy działania

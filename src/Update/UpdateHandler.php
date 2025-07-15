@@ -2,8 +2,10 @@
 
 namespace App\Update;
 
-use App\AI\Test\FakeConnection;
+use App\AI\Test\TestAIService;
+use App\Backup\BackupService;
 use App\Framework\Attribute\Handler;
+use App\Framework\Framework;
 use App\Route\Interfaces\HandlerInterface;
 
 #[Handler('/update')]
@@ -11,7 +13,13 @@ class UpdateHandler implements HandlerInterface
 {
     public function handle() : void
     {
-        $service = new UpdateService(new FakeConnection());
+        $testService = new TestAIService();
+        $testService->mockResponse("@@@UPDATE%%%index1.php%%%<?php echo('siema');");
+
+        $service = new UpdateService(
+            new TestAIService(),
+            new BackupService(Framework::$projectDir."/public/app")
+        );
         $service->updateProject();
     }
 }

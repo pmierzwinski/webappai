@@ -20,4 +20,6 @@ abstract class AIService
         $prompt = $this->promptFactory->createBetterCodePrompt($oldCode);
         return $this->ask($prompt);
     }
+
+
 }

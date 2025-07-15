@@ -7,7 +7,7 @@ use App\AI\Exceptions\ResponseFormatException;
 use App\Utils\Api\Api;
 use App\Utils\File\FileService;
 
-class GroqConnection extends AIService
+class GroqAIService extends AIService
 {
     private Api $api;
 
