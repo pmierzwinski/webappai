@@ -2,23 +2,22 @@
 
 namespace App\AI;
 
-use App\Interface\AIConnection;
-use App\Promptx\PromptsFactory;
+use App\Prompt\PromptsFactory;
 
-class AIService
+abstract class AIService
 {
-    private AIConnection $connection;
     private PromptsFactory $promptFactory;
 
-    public function __construct(AIConnection $connection)
+    public abstract function ask(string $prompt);
+
+    public function __construct()
     {
-        $this->connection = $connection;
         $this->promptFactory = new PromptsFactory();
     }
 
     public function getBetterCode(string $oldCode) : string
     {
         $prompt = $this->promptFactory->createBetterCodePrompt($oldCode);
-        return $this->connection->ask($prompt);
+        return $this->ask($prompt);
     }
 }

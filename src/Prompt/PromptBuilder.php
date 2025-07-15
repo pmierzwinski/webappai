@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Promptx;
+namespace App\Prompt;
 
 class PromptBuilder
 {

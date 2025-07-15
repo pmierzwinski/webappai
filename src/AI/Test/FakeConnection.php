@@ -2,12 +2,12 @@
 
 namespace App\AI\Test;
 
-use App\Interface\AIConnection;
+use App\AI\AIService;
 
-class FakeConnection implements AIConnection
+class FakeConnection extends AIService
 {
     public function ask(string $prompt) : string
     {
-        return "test";
+        return "@@@UPDATE%%%index1.php%%%<?php echo('siema');";
     }
 }

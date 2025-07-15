@@ -4,7 +4,7 @@ namespace App\Update\Command;
 
 use App\Update\UpdateService;
 
-class CreateCommand implements CommandInterface
+class UpdateCommand implements CommandInterface
 {
     public function __construct(
         private UpdateService $app,
@@ -14,6 +14,6 @@ class CreateCommand implements CommandInterface
 
     public function execute()
     {
-        $this->app->createFile($fileName, $content);
+        $this->app->updateFile($this->fileName, $this->content);
     }
 }

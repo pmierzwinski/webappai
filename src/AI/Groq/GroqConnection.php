@@ -2,12 +2,12 @@
 
 namespace App\AI\Groq;
 
+use App\AI\AIService;
 use App\AI\Exceptions\ResponseFormatException;
-use App\Interface\AIConnection;
 use App\Utils\Api\Api;
 use App\Utils\File\FileService;
 
-class GroqConnection implements AIConnection
+class GroqConnection extends AIService
 {
     private Api $api;
 
@@ -17,6 +17,8 @@ class GroqConnection implements AIConnection
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->api = new Api(self::GROQ_URL);
         $this->api->setHeaders([
             "Authorization: Bearer ".self::GROQ_API_KEY,

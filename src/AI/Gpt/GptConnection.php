@@ -2,11 +2,11 @@
 
 namespace App\AI\Gpt;
 
+use App\AI\AIService;
 use App\AI\Exceptions\ResponseFormatException;
-use App\Interface\AIConnection;
 use App\Utils\Api\Api;
 
-class GptConnection implements AIConnection
+class GptConnection extends AIService
 {
     private Api $api;
 
@@ -16,6 +16,8 @@ class GptConnection implements AIConnection
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->api = new Api(self::GPT_URL);
         $this->api->setHeaders([
             "Authorization: Bearer ".self::GPT_API_KEY,

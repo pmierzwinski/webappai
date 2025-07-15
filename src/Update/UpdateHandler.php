@@ -2,21 +2,16 @@
 
 namespace App\Update;
 
+use App\AI\Test\FakeConnection;
 use App\Framework\Attribute\Handler;
 use App\Route\Interfaces\HandlerInterface;
 
-#[Handler('update')]
+#[Handler('/update')]
 class UpdateHandler implements HandlerInterface
 {
     public function handle() : void
     {
-//todo change to command
-
-
-
-//        $connection = new GroqConnection();
-//        $app = new App($connection);
-
-
+        $service = new UpdateService(new FakeConnection());
+        $service->updateProject();
     }
 }
